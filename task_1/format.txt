@@ -1,0 +1,25 @@
+1451225721496 current timestamp in ms
+1000000 size of buffer, how many measurements should be here
+999999 count of fetched measurements, not important
+43881 buffer offset, not important
+1451214448488 last meas time
+1450206449496 first meas time
+1008 interval, you can use value around 219
+
+
+508 raw valur
+507 raw value
+....
+507 raw value
+
+
+If you want to calculate real value from raw
+
+real value = (raw value + meas offset) * linear coefficient
+
+meas offset = -512
+linear coefficient = 0.191
+
+real value = (508 - 512) * 0.191
+real value = -0.764
+

@@ -1,0 +1,9 @@
+If you want to calculate real value from raw
+
+real value = (raw value + meas offset) * linear coefficient
+
+meas offset = 0
+linear coefficient = 0.0777126099706744868
+
+real value = (316 + 0) * 0.0777126099706744868
+real value = 24.55718475073314
