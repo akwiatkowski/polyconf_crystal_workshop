@@ -1,10 +1,13 @@
 class HomeEnergyServer::CurrentTime
   def initialize
     @time = Time.now
+    @span = Time::Span.new(0, 10, 0)
   end
 
+  getter :span
+
   def tick
-    @time += Time::Span.new(0, 10, 0)
+    @time += @span
   end
 
   def current : Time

@@ -49,4 +49,8 @@ class HomeEnergyServer::Sun
     return @max_power.to_f * @day_coeff * c
   end
 
+  def payload
+    {power: power, max_power: @max_power}
+  end
+  
 end

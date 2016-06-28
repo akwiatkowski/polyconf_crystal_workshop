@@ -3,10 +3,6 @@ class HomeEnergyServer::Wind
     @last_time = @time.current as Time
     @day_coeff = generate_day_coeff as Float64
     @current_coeff = 1.0
-
-    20.times do
-      puts generate_current_coeff
-    end
   end
 
   def generate_day_coeff
@@ -33,6 +29,9 @@ class HomeEnergyServer::Wind
 
       puts "current day wind coeff #{@day_coeff}"
     end
+
+    c = generate_current_coeff as Float64
+    @current_coeff = (@current_coeff + c) / 2.0
   end
 
   def time
@@ -40,10 +39,12 @@ class HomeEnergyServer::Wind
   end
 
   def power
-    c = generate_current_coeff as Float64
-    @current_coeff = (@current_coeff + c) / 2.0
-
     return @max_power.to_f * @day_coeff * @current_coeff
   end
+
+  def payload
+    {power: power, max_power: @max_power}
+  end
+
 
 end
