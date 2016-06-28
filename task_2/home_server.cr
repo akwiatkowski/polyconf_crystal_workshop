@@ -22,9 +22,10 @@ class HomeServer
   def tick
     @time.tick
     @solar.tick
+    @wind.tick
   end
 
   def show
-    puts "#{@time.current} - #{@solar.power}"
+    puts "#{@time.current} - #{@solar.power}, #{@wind.power}"
   end
 end
