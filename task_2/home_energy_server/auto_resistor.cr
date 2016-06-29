@@ -4,6 +4,7 @@ class HomeEnergyServer::AutoResistor
   def initialize(@battery : HomeEnergyServer::Battery, @tick : Time::Span, @enabled = true, @power = 200.0)
     @work_time = Time::Span.new(0)
     @working = false
+    @energy_wasted = 0.0
   end
 
   property :enabled
@@ -17,7 +18,7 @@ class HomeEnergyServer::AutoResistor
 
   def run
     puts "Autoresistor discharge #{@power}"
-    @battery.discharge(@power)
+    @energy_wasted += @battery.discharge(@power)
     @work_time += @tick
     @working = true
   end
@@ -26,7 +27,8 @@ class HomeEnergyServer::AutoResistor
     {
       power: @power,
       working: @working,
-      work_time: @work_time.total_milliseconds
+      work_time: @work_time.total_milliseconds,
+      energy_wasted: @energy_wasted
     }
   end
 end

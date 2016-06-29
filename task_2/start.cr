@@ -8,4 +8,9 @@ s = HomeServer.new(
   solar_max_power: 100.0
 )
 
+s.add_power_outlet(
+  name: "root",
+  power: 0.01
+)
+
 s.make_it_so

@@ -9,15 +9,15 @@ class HomeEnergyServer::Battery
 
   getter :charged
 
-  def charge(power : Float64)
+  def charge(power : Float64) : Float64
     charge_time(power: power, span: @tick)
   end
 
-  def discharge(power : Float64)
+  def discharge(power : Float64) : Float64
     discharge_time(power: power, span: @tick)
   end
 
-  def calculate_energy(power : Float64, span : Time::Span)
+  def calculate_energy(power : Float64, span : Time::Span) : Float64
     current = power / @voltage
     time = span.total_hours
     energy = current * time # in Ah
@@ -25,14 +25,19 @@ class HomeEnergyServer::Battery
     return energy
   end
 
-  def charge_time(power : Float64, span : Time::Span)
+  def charge_time(power : Float64, span : Time::Span) : Float64
     cq = ( calculate_energy(power: power, span: span) / @capacity)
     @full_cycles += cq
     @charged += cq
+
+    return cq
   end
 
-  def discharge_time(power : Float64, span : Time::Span)
-    @charged -= ( calculate_energy(power: power, span: span) / @capacity)
+  def discharge_time(power : Float64, span : Time::Span) : Float64
+    cq = ( calculate_energy(power: power, span: span) / @capacity)
+    @charged -= cq
+
+    return cq
   end
 
   def charge(power : Float64, span : Time::Span)
