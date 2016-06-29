@@ -50,8 +50,13 @@ class HomeEnergyServer::PowerOutlets
   end
 
   def payload
-    {
-      outlets: @outlets.map{|o| o.payload }
+    sorted = @outlets.sort{|a,b| b.consumed_energy <=> a.consumed_energy }
+    names = sorted.map{|a| a.name}
+    energs = sorted.map{|a| a.consumed_energy}
+
+    return {
+      outlets: @outlets.map{|o| o.payload },
+      best: Hash(String, Float64).zip(names, energs)
     }
   end
 
