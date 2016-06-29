@@ -3,6 +3,7 @@ require "json"
 
 class PolyconfHome::FrontendServer
   def initialize
+    get_payload
 
   end
 
@@ -36,6 +37,12 @@ class PolyconfHome::FrontendServer
     response = HTTP::Client.get "localhost:3080"
     body = response.body
     json = JSON.parse(body)
+
+    time = Time.epoch(json["time"].to_s.to_i)
+    puts time.inspect
+
+    solar_power = json["solar"]["power"]
+    puts solar_power
 
     return json
   end
