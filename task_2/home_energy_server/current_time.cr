@@ -1,7 +1,6 @@
 class HomeEnergyServer::CurrentTime
-  def initialize
+  def initialize(@span = Time::Span.new(0, 10, 0))
     @time = Time.now
-    @span = Time::Span.new(0, 10, 0)
   end
 
   getter :span

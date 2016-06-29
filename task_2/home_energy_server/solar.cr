@@ -3,7 +3,7 @@ require "../utils/random_gaussian"
 class HomeEnergyServer::Sun
   # @day_coeff : Float64
 
-  def initialize(@time : HomeEnergyServer::CurrentTime, @max_power = 100)
+  def initialize(@time : HomeEnergyServer::CurrentTime, @max_power = 100.0)
     @last_time = @time.current as Time
     @day_coeff = generate_day_coeff as Float64
   end
@@ -52,5 +52,5 @@ class HomeEnergyServer::Sun
   def payload
     {power: power, max_power: @max_power}
   end
-  
+
 end

@@ -1,8 +1,38 @@
 class HomeEnergyServer::Battery
-  def initialize(@voltage = 48.0, @capacity : Float64 = 80.0) # capacity in Ah
+  def initialize(@tick : Time::Span, @voltage = 48.0, @capacity : Float64 = 80.0) # capacity in Ah
     @charged = 0.5
     @overload_time = Time::Span.new(0)
     @underload_time = Time::Span.new(0)
+    @full_cycles = 0.0
+    @max_full_cycles = 1000.0
+  end
+
+  getter :charged
+
+  def charge(power : Float64)
+    charge_time(power: power, span: @tick)
+  end
+
+  def discharge(power : Float64)
+    discharge_time(power: power, span: @tick)
+  end
+
+  def calculate_energy(power : Float64, span : Time::Span)
+    current = power / @voltage
+    time = span.total_hours
+    energy = current * time # in Ah
+
+    return energy
+  end
+
+  def charge_time(power : Float64, span : Time::Span)
+    cq = ( calculate_energy(power: power, span: span) / @capacity)
+    @full_cycles += cq
+    @charged += cq
+  end
+
+  def discharge_time(power : Float64, span : Time::Span)
+    @charged -= ( calculate_energy(power: power, span: span) / @capacity)
   end
 
   def charge(power : Float64, span : Time::Span)
@@ -12,6 +42,7 @@ class HomeEnergyServer::Battery
 
     @charged += (energy / @capacity)
   end
+
 
   def current_capacity
     @capacity * @charged
@@ -27,13 +58,19 @@ class HomeEnergyServer::Battery
     end
   end
 
+  def reset!
+    @charged = 0.5
+  end
+
   def payload
     {
       charged: @charged,
       underload_time: @underload_time.total_milliseconds,
       overload_time: @overload_time.total_milliseconds,
       voltage: @voltage,
-      capacity: @capacity
+      capacity: @capacity,
+      full_cycles: @full_cycles,
+      max_full_cycles: @max_full_cycles
     }
   end
 end
