@@ -3,7 +3,7 @@ require "json"
 
 class HomeEnergyServer::HttpServer
   def initialize(@port = 3080, @h : HomeServer = HomeServer.new)
-    @server = HTTP::Server.new(@port) do |context|
+    @server = HTTP::Server.new("0.0.0.0", @port) do |context|
       context.response.content_type = "application/json"
 
       if context.request.method == "POST"
@@ -23,12 +23,17 @@ class HomeEnergyServer::HttpServer
   def process_post_request(context)
     begin
       req = JSON.parse(context.request.body.to_s)
-      if req["reset_battery"]
+      if req["reset_battery"]?
         @h.reset_battery
         return {status: 0}
       end
 
-      return nil
+      if req["name"]?
+        outlet = @h.add_power_outlet(name: req["name"].to_s, power: req["power"].to_s.to_f)
+        return {status: 0, outlet: outlet.payload}
+      end
+
+      return @h.payload
     rescue JSON::ParseException
       return nil
     end

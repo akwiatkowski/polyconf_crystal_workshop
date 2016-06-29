@@ -13,4 +13,9 @@ s.add_power_outlet(
   power: 0.01
 )
 
+s.add_power_outlet(
+  name: "too_much",
+  power: 2000.0
+)
+
 s.make_it_so
