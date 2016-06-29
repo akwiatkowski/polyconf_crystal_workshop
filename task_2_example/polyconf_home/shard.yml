@@ -1,0 +1,11 @@
+name: polyconf_home
+version: 0.1.0
+
+authors:
+  - Aleksander Kwiatkowski <bobikx@poczta.fm>
+
+dependencies:
+  kemal:
+    github: sdogruyol/kemal
+
+license: MIT
