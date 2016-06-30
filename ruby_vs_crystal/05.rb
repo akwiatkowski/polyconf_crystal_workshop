@@ -10,8 +10,8 @@ h = {
   ]
 }
 
-
 puts h.inspect
-
-puts "\nclass"
 puts h.class
+
+puts ({"a" => 1}).class
+puts ({a: 1}).class

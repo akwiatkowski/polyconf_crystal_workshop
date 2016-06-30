@@ -1,25 +1,25 @@
 f = File.new("buffer_i_gen_batt.txt")
-_ = f.gets # not important
+f.gets # not important
 
 count = f.gets.to_s.to_i
 
 4.times do
-  _ = f.gets # not important
+  f.gets # not important
 end
 
 interval = f.gets.to_s.to_i
 
 2.times do
-  _ = f.gets # not important
+  f.gets # not important
 end
 
-raw = Array(Int32).new
+raw = Array.new
 
 (count - 1).times do
   raw << f.gets.to_s.to_i
 end
 
-values = Array(Float64).new
+values = Array.new
 
 raw.each do |r|
   v = (r.to_f - 512.0) * 0.191

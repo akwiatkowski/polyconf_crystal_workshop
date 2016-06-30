@@ -8,4 +8,9 @@ task_2_example/polyconf_home/libs/
 task_2_example/polyconf_home/.crystal/
 task_2_example/polyconf_home/.shards/
 
+task_2_workshop/workshop/doc/
+task_2_workshop/workshop/libs/
+task_2_workshop/workshop/.crystal/
+task_2_workshop/workshop/.shards/
+
 public

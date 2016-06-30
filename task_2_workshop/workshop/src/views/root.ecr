@@ -1,0 +1,21 @@
+<h2>Wind power</h2>
+<p><%= wind_power %>W</p>
+
+<h2>Solar power</h2>
+<p><%= solar_power %>W</p>
+
+<h2>Total power</h2>
+<p><%= solar_power + wind_power %>W</p>
+
+
+<%= json.inspect %>
+
+
+<form action="/set" method="POST">
+  <input type="text" name="name" />
+  <input type="text" name="power" />
+
+  <button type="submit" value="Submit" >
+</form>
+
+<hr>
