@@ -13,10 +13,23 @@ class PolyconfHome::FrontendServer
       render "src/views/root.ecr"
     end
 
+    get "/streaming" do |env|
+      loop do
+        sleep 3
+        env.response.puts "#{Time.now.to_s}"
+        env.response.flush
+      end
+      env
+    end
+
     ws "/ws" do |socket|
       # Handle incoming message and echo back to the client
       socket.on_message do |message|
-        socket.send "Echo back from server #{message}"
+        # spawn do
+        #   loop do
+            socket.send "Echo back from server #{message}"
+        #   end
+        # end
       end
 
       # Executes when the client is disconnected. You can do the cleaning up here.
@@ -24,9 +37,17 @@ class PolyconfHome::FrontendServer
         puts "Closing socket"
       end
 
-      socket.send "Hello from Kemal 1!"
-      sleep 1
-      socket.send "Hello from Kemal 2!"
+      # socket.send "Hello from Kemal 1!"
+      # sleep 5
+      # socket.send "Hello from Kemal 2!"
+
+      spawn do
+        loop do
+          socket.send get_payload.to_json #"#{Time.now}"
+          sleep 0.5
+        end
+      end
+
 
     end
 
